@@ -16,5 +16,4 @@ const Movie = (props) => {
           console.error(error);
         });
 
-  },[]);
-}
+  },[]);}
