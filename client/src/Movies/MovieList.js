@@ -3,12 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const MovieList = props => {
-  const [movies, setMovies] = useState()
+  const [movies, setMovies] = useState([])
+
   useEffect(() => {
     const getMovies = () => {
       axios
-        .get('http://localhost:3001/api/movies')
-        .then(response => {
+        .get('http://localhost:5000/api/movies')
+         .then(response => { 
           setMovies(response.data);
         })
         .catch(error => {
@@ -22,9 +23,33 @@ const MovieList = props => {
   return (
     <div className="movie-list">
       {movies.map(movie => (
+     
         <MovieDetails key={movie.id} movie={movie} />
+        
       ))}
     </div>
+  );
+}
+
+function MovieDetails({ movie }) {
+  const { title, id, director, metascore, stars } = movie;
+  return (
+    <Link to={`/movie/${id}`} key={movie.id}> <div className="movie-card">
+      <h2>{title}</h2>
+      <div className="movie-director">
+        Director: <em>{director}</em>
+      </div>
+      <div className="movie-metascore">
+        Metascore: <strong>{metascore}</strong>
+      </div>
+      <h3>Actors</h3>
+
+      {stars.map(star => (
+        <div key={star} className="movie-star">
+          {star}
+        </div>
+      ))}
+    </div></Link>
   );
 }
 
